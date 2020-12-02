@@ -12,8 +12,8 @@ const parseData = (cb) => {
     
 
 
-const giveBadPasswords = (cb) => {
-    const data = parseData((err, data) => {
+const giveGoodPasswords = (cb) => {
+    parseData((err, data) => {
         if (err) {
             throw err;
         } else {
@@ -52,4 +52,40 @@ const giveBadPasswords = (cb) => {
 
 }
 
-giveBadPasswords((data) => console.log(data));
+// giveGoodPasswords((data) => console.log(data));
+
+
+const giveGoodPasswordsUniqiue = (cb) => {
+    parseData((err, data) => {
+        if (err) {
+            throw err;
+        } else {
+
+            let goodPasswords = [];
+
+            for (let i = 0; i < data.length; i++) {
+                const currentSet = data[i].split(' ');
+                // The first index will be the two indexes to check in the password
+                let indexPositions = currentSet[0];
+                // The Second index will be the letter that is required and a colon
+                const letterRequired = currentSet[1][0]; // just getting the letter
+                // The third index will be the password
+                const password = currentSet[2];
+
+                let firstIndex = Number.parseInt(indexPositions.split('-')[0]) - 1;
+                let secondIndex = Number.parseInt(indexPositions.split('-')[1]) - 1;
+
+                if ((password[firstIndex] === letterRequired) && (password[secondIndex] === letterRequired)) {
+                    // Do Nothing
+                } else if ((password[firstIndex] === letterRequired) || (password[secondIndex] === letterRequired)) {
+                    goodPasswords.push(data[i]);
+                }
+
+
+            }
+            cb(goodPasswords.length);
+        }
+    });
+}
+
+giveGoodPasswordsUniqiue((data) => console.log(data));
