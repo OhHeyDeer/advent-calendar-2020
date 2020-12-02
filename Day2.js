@@ -18,7 +18,7 @@ const giveBadPasswords = (cb) => {
             throw err;
         } else {
 
-            let badPasswords = [];
+            let goodPasswords = [];
 
 
             for(let i = 0; i < data.length; i++) {
@@ -41,13 +41,12 @@ const giveBadPasswords = (cb) => {
                     }
                 }
                 if ((count >= minOcc) && (count <= maxOcc)) { 
+                    goodPasswords.push(data[i])
                     // The count is valid
                     // Password is valid
-                } else {
-                    badPasswords.push(data[i])
                 }
             }
-            cb(badPasswords.length);
+            cb(goodPasswords.length);
         }
     });
 
